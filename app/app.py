@@ -17,7 +17,7 @@ def get_db_version(retries=5, delay=3):
                 host=DB_HOST,
                 user=DB_USER,
                 password=DB_PASS,
-                dbport=DB_PORT
+                port=DB_PORT
             )
             cur = conn.cursor()
             cur.execute("SELECT version();")
