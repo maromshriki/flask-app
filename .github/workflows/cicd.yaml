@@ -41,6 +41,8 @@ jobs:
     - name: Push to ECR
       run: |
         docker push 414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
+    - name: Deploy via SSM
+      run: |
         aws ssm send-command \
         --targets "Key=instanceIds,Values=i-07a41ba7bd88a9a13" \
         --document-name "AWS-RunShellScript" \
