@@ -41,3 +41,16 @@ jobs:
     - name: Push to ECR
       run: |
         docker push 414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
+    - name: Deploy via SSM
+      run: |
+        aws ssm send-command \
+          --instance-ids i-07a41ba7bd88a9a13 \
+          --document-name "AWS-RunShellScript" \
+          --comment "Deploy Flask App" \
+          --parameters commands='[
+            "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 414444871239.dkr.ecr.us-east-1.amazonaws.com",
+            "docker pull 414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest",
+            "docker stop flask || true",
+            "docker rm flask || true",
+            "docker run -d -p 5000:5000 --name flask --env-file /home/ec2-user/flask-app/secret/flask.env 414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest"
+          ]'
