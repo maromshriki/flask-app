@@ -33,7 +33,7 @@ def get_db_version(retries=5, delay=3):
 @app.route("/")
 def home():
     db_version = get_db_version()
-    return f"<h1>🚀 Flask Production--like Apps</h1><p>Postgres version: {db_version}</p>"
+    return f"<h1>🚀 Flask Production---like Apps</h1><p>Postgres version: {db_version}</p>"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
