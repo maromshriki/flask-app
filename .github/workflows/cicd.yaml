@@ -67,7 +67,7 @@ jobs:
           "docker pull 414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest",
           "docker stop flask || true",
           "docker rm flask || true",
-          "dדocker run -d -p 5000:5000 --name flask \
+          "docker run -d -p 5000:5000 --name flask \
           -v /home/ec2-user/flask-app/secret/flask.env:/app/secret/flask.env \
           --env-file /app/secret/flask.env \
           414444871239.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest"
