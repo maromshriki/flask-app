@@ -51,7 +51,7 @@ jobs:
     - name: Deploy via SSM
       run: |
         aws ssm send-command \
-          --targets "Key=instanceIds,Values=i-07a41ba7bd88a9a13" \
+          --targets "Key=tag:Role,Values=flask-server" \
           --document-name "AWS-RunShellScript" \
           --comment "Deploy Flask App" \
           --parameters commands='[
