@@ -1,31 +1,34 @@
 from flask import Flask
 import psycopg2
 import os
+import time
 
 app = Flask(__name__)
 
-# ✅ קבלת משתני סביבה
 DB_HOST = os.environ.get("POSTGRES_HOST")
 DB_USER = os.environ.get("POSTGRES_USER")
 DB_PASS = os.environ.get("POSTGRES_PASSWORD")
-DB_NAME = os.environ.get("POSTGRES_DB")
+DB_PORT = os.environ.get("POSTGRES_PORT")
 
-def get_db_version():
-    try:
-        conn = psycopg2.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASS,
-            dbname=DB_NAME
-        )
-        cur = conn.cursor()
-        cur.execute("SELECT version();")
-        version = cur.fetchone()[0]
-        cur.close()
-        conn.close()
-        return version
-    except:
-        return "DB not ready"
+def get_db_version(retries=5, delay=3):
+    for attempt in range(retries):
+        try:
+            conn = psycopg2.connect(
+                host=DB_HOST,
+                user=DB_USER,
+                password=DB_PASS,
+                dbport=DB_PORT
+            )
+            cur = conn.cursor()
+            cur.execute("SELECT version();")
+            version = cur.fetchone()[0]
+            cur.close()
+            conn.close()
+            return version
+        except Exception as e:
+            print(f"DB connection failed (attempt {attempt+1}/{retries}): {e}")
+            time.sleep(delay)
+    return "DB not ready"
 
 @app.route("/")
 def home():
