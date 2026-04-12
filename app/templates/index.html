@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask DevOps App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .status {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .ok {
+            background: #064e3b;
+            color: #34d399;
+        }
+
+        .fail {
+            background: #7f1d1d;
+            color: #f87171;
+        }
+
+        .version {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 Flask DevOps App</h1>
+
+        {% if db_version != "DB not ready" %}
+            <div class="status ok">
+                ✅ Database Connected
+                <div class="version">{{ db_version }}</div>
+            </div>
+        {% else %}
+            <div class="status fail">
+                ❌ Database Not Ready
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
